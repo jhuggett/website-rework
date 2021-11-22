@@ -18,6 +18,9 @@ const App = ({ Component, pageProps }) => {
             branch="main"
             clientId={NEXT_PUBLIC_TINA_CLIENT_ID}
             isLocalClient={Boolean(Number(NEXT_PUBLIC_USE_LOCAL_CLIENT))}
+            cmsCallback={cms => {
+              cms.flags.set("tina-admin", true)
+            }}
             {...pageProps}
           >
             {(livePageProps) => <Component {...livePageProps} />}
