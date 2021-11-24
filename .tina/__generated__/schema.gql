@@ -81,6 +81,7 @@ union DocumentNode = PageDocument | PostDocument
 
 type Page {
   body: JSON
+  hero: String
 }
 
 type PageDocument implements Node & Document {
@@ -105,7 +106,8 @@ type PageConnection implements Connection {
 
 type Post {
   title: String
-  body: String
+  topic: [String]
+  body: JSON
 }
 
 type PostDocument implements Node & Document {
@@ -145,11 +147,13 @@ input DocumentMutation {
 
 input PageMutation {
   body: JSON
+  hero: String
 }
 
 input PostMutation {
   title: String
-  body: String
+  topic: [String]
+  body: JSON
 }
 
 schema {

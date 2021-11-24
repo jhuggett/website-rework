@@ -1,8 +1,10 @@
 fragment PageParts on Page {
   body
+  hero
 }
 
 fragment PostParts on Post {
   title
+  topic
   body
 }

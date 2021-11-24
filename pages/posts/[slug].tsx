@@ -1,17 +1,16 @@
 import { getStaticPropsForTina } from 'tinacms'
 import { Layout } from '../../components/Layout'
+import { TinaMarkdown } from 'tinacms/dist/rich-text'
 export default function Home(props) {
+
+  const { data } = props.data.getPostDocument
+
   return (
     <Layout>
-      <code>
-        <pre
-          style={{
-            backgroundColor: 'lightgray',
-          }}
-        >
-          {JSON.stringify(props.data.getPostDocument.data, null, 2)}
-        </pre>
-      </code>
+      <h1>
+        {data.title}
+      </h1>
+      <TinaMarkdown content={data.body} />
     </Layout>
   )
 }
@@ -19,7 +18,7 @@ export default function Home(props) {
 export const getStaticPaths = async () => {
   const tinaProps = await getStaticPropsForTina({
     query: `{
-        getPageList{
+        getPostList{
           edges {
             node {
               sys {
@@ -31,7 +30,7 @@ export const getStaticPaths = async () => {
       }`,
     variables: {},
   })
-  const paths = tinaProps.data.getPageList.edges.map((x) => {
+  const paths = tinaProps.data.getPostList.edges.map((x) => {
     return { params: { slug: x.node.sys.filename } }
   })
 
@@ -52,7 +51,7 @@ export const getStaticProps = async (ctx) => {
       }
       `,
     variables: {
-      relativePath: ctx.params.slug + '.md',
+      relativePath: ctx.params.slug + '.mdx',
     },
   })
 

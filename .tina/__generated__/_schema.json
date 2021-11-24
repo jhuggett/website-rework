@@ -14,6 +14,15 @@
             "page",
             "body"
           ]
+        },
+        {
+          "name": "hero",
+          "type": "image",
+          "label": "Hero Image",
+          "namespace": [
+            "page",
+            "hero"
+          ]
         }
       ],
       "namespace": [
@@ -36,12 +45,23 @@
         },
         {
           "type": "string",
+          "label": "Topic",
+          "name": "topic",
+          "options": [
+            "programming",
+            "blacksmithing"
+          ],
+          "list": true,
+          "namespace": [
+            "post",
+            "topic"
+          ]
+        },
+        {
+          "type": "rich-text",
           "label": "Blog Post Body",
           "name": "body",
           "isBody": true,
-          "ui": {
-            "component": "textarea"
-          },
           "namespace": [
             "post",
             "body"

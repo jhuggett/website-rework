@@ -10,6 +10,11 @@
           "label": "Main Content",
           "type": "rich-text",
           "isBody": true
+        },
+        {
+          "name": "hero",
+          "type": "image",
+          "label": "Hero Image"
         }
       ]
     },
@@ -25,12 +30,19 @@
         },
         {
           "type": "string",
+          "label": "Topic",
+          "name": "topic",
+          "options": [
+            "programming",
+            "blacksmithing"
+          ],
+          "list": true
+        },
+        {
+          "type": "rich-text",
           "label": "Blog Post Body",
           "name": "body",
-          "isBody": true,
-          "ui": {
-            "component": "textarea"
-          }
+          "isBody": true
         }
       ]
     }

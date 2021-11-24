@@ -13,6 +13,11 @@ export default defineSchema({
           type: 'rich-text',
           isBody: true,
         },
+        {
+          name: 'hero',
+          type: 'image',
+          label: 'Hero Image',
+        }
       ],
     },
     {
@@ -27,12 +32,16 @@ export default defineSchema({
         },
         {
           type: 'string',
+          label: 'Topic',
+          name: 'topic',
+          options: ['programming', 'blacksmithing'],
+          list: true
+        },
+        {
+          type: 'rich-text',
           label: 'Blog Post Body',
           name: 'body',
           isBody: true,
-          ui: {
-            component: 'textarea',
-          },
         },
       ],
     },

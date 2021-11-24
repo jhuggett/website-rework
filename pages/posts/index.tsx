@@ -1,20 +1,21 @@
 import { getStaticPropsForTina } from 'tinacms'
 import { Layout } from '../../components/Layout'
 import Link from 'next/link'
-export default function Home(props) {
+export default function Posts(props) {
   const postsList = props.data.getPostList.edges
+
   return (
     <Layout>
       <h1>Posts</h1>
-      <div>
+      <ul>
         {postsList.map((post) => (
-          <div key={post.node.id}>
+          <li key={post.node.id}>
             <Link href={`/posts/${post.node.sys.filename}`}>
-              <a>{post.node.sys.filename}</a>
+              <a>{post.node.data.title}</a>
             </Link>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </Layout>
   )
 }
@@ -28,6 +29,9 @@ export const getStaticProps = async () => {
               id
               sys {
                 filename
+              }
+              data {
+                title
               }
             }
           }

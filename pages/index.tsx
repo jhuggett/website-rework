@@ -1,10 +1,18 @@
 import { getStaticPropsForTina } from 'tinacms'
 import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import { Layout } from '../components/Layout'
+import Image from 'next/image'
+
+
 export default function Home(props) {
-  const content = props.data.getPageDocument.data.body
+  const { data } = props.data.getPageDocument
+  const content = data.body
   return (
     <Layout>
+      {data.hero && <Image 
+        src={data.hero}
+      />}
+      
       <TinaMarkdown content={content} />
     </Layout>
   )
@@ -16,6 +24,7 @@ export const getStaticProps = async () => {
     getPageDocument(relativePath: "home.mdx"){
       data{
         body
+        hero
       }
     }
   }`,
