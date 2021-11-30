@@ -9,10 +9,6 @@ export default function Home(props) {
   const content = data.body
   return (
     <Layout>
-      {data.hero && <Image 
-        src={data.hero}
-      />}
-      
       <TinaMarkdown content={content} />
     </Layout>
   )

@@ -12,22 +12,43 @@ const NEXT_PUBLIC_USE_LOCAL_CLIENT =
 
 
 const theme = {
-  background: 'grey',
-  primary: 'blue',
-  secondary: 'red'
+  background: 'black',
+  primary: 'green',
+  secondary: 'white'
 }
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.background};
     color: ${props => props.theme.primary};
+    
+    font-size: 5em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    
+  }
+
+  html, body, #__next {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
   }
 `
 
 const App = ({ Component, pageProps }) => {
+
+  const ThemeWrappedComponent = (props) => {
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Component {...props} />
+      </ThemeProvider>
+    )
+  }
+
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
       <TinaEditProvider
         showEditButton={true}
         editMode={
@@ -41,15 +62,17 @@ const App = ({ Component, pageProps }) => {
             }}
             {...pageProps}
           >
-            {(livePageProps) => <Component {...livePageProps} />}
+            {(livePageProps) => <ThemeWrappedComponent {...livePageProps} />}
           </TinaCMS>
         }
       >
-        
-        <Component {...pageProps} />
+        <ThemeWrappedComponent {...pageProps} />
       </TinaEditProvider>
-    </ThemeProvider>
   )
 }
+
+export const themeFragment = `
+  getThemeDocument(relativePath: )
+`
 
 export default App

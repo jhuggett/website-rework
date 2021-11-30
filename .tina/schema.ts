@@ -1,17 +1,32 @@
 import { defineSchema } from '@tinacms/cli'
 
+const ThemeCollection = {
+  label: 'Theme',
+  name: 'theme',
+  path: 'content/theme',
+  fields: [
+    {
+      label: 'Background',
+      type: 'color',
+      name: 'background'
+    }
+  ]
+}
+
 export default defineSchema({
   collections: [
     {
       label: 'Page Content',
       name: 'page',
       path: 'content/page',
+      format: 'mdx',
       fields: [
         {
           name: 'body',
           label: 'Main Content',
           type: 'rich-text',
           isBody: true,
+          
         },
         {
           name: 'hero',
@@ -24,6 +39,7 @@ export default defineSchema({
       label: 'Blog Posts',
       name: 'post',
       path: 'content/post',
+      format: 'mdx',
       fields: [
         {
           type: 'string',
@@ -42,6 +58,48 @@ export default defineSchema({
           label: 'Blog Post Body',
           name: 'body',
           isBody: true,
+          templates: [
+            {
+              name: 'Gallery',
+              label: 'Gallery', 
+              fields: [
+                {
+                  label: 'Images',
+                  name: 'images',
+                  type: 'object',
+                  list: true,
+                  fields: [
+                    {
+                      type: 'image',
+                      name: 'src',
+                      label: 'Source',
+                    },
+                    {
+                      type: 'string',
+                      name: 'width',
+                      label: 'Width'
+                    },
+                    {
+                      type: 'string',
+                      name: 'height',
+                      label: 'Height'
+                    },
+                  ]
+                },
+                {
+                  type: 'string',
+                  name: 'alignment',
+                  label: 'Alignment',
+                  options: ['left','center', 'right']
+                },
+                {
+                  type: 'string',
+                  name: 'gap',
+                  label: 'Gap'
+                }
+              ]
+            }
+          ]
         },
       ],
     },

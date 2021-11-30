@@ -4,6 +4,7 @@
       "label": "Page Content",
       "name": "page",
       "path": "content/page",
+      "format": "mdx",
       "fields": [
         {
           "name": "body",
@@ -33,6 +34,7 @@
       "label": "Blog Posts",
       "name": "post",
       "path": "content/post",
+      "format": "mdx",
       "fields": [
         {
           "type": "string",
@@ -62,6 +64,96 @@
           "label": "Blog Post Body",
           "name": "body",
           "isBody": true,
+          "templates": [
+            {
+              "name": "Gallery",
+              "label": "Gallery",
+              "fields": [
+                {
+                  "label": "Images",
+                  "name": "images",
+                  "type": "object",
+                  "list": true,
+                  "fields": [
+                    {
+                      "type": "image",
+                      "name": "src",
+                      "label": "Source",
+                      "namespace": [
+                        "post",
+                        "body",
+                        "Gallery",
+                        "images",
+                        "src"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "name": "width",
+                      "label": "Width",
+                      "namespace": [
+                        "post",
+                        "body",
+                        "Gallery",
+                        "images",
+                        "width"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "name": "height",
+                      "label": "Height",
+                      "namespace": [
+                        "post",
+                        "body",
+                        "Gallery",
+                        "images",
+                        "height"
+                      ]
+                    }
+                  ],
+                  "namespace": [
+                    "post",
+                    "body",
+                    "Gallery",
+                    "images"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "alignment",
+                  "label": "Alignment",
+                  "options": [
+                    "left",
+                    "center",
+                    "right"
+                  ],
+                  "namespace": [
+                    "post",
+                    "body",
+                    "Gallery",
+                    "alignment"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "name": "gap",
+                  "label": "Gap",
+                  "namespace": [
+                    "post",
+                    "body",
+                    "Gallery",
+                    "gap"
+                  ]
+                }
+              ],
+              "namespace": [
+                "post",
+                "body",
+                "Gallery"
+              ]
+            }
+          ],
           "namespace": [
             "post",
             "body"
