@@ -1,3 +1,10 @@
+fragment ThemeParts on Theme {
+  background
+  primary
+  secondary
+  fontSize
+}
+
 fragment PageParts on Page {
   body
   hero

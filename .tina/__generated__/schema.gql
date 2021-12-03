@@ -48,6 +48,8 @@ type Query {
   getDocument(collection: String, relativePath: String): DocumentNode!
   getDocumentList(before: String, after: String, first: Int, last: Int): DocumentConnection!
   getDocumentFields: JSON!
+  getThemeDocument(relativePath: String): ThemeDocument!
+  getThemeList(before: String, after: String, first: Int, last: Int): ThemeConnection!
   getPageDocument(relativePath: String): PageDocument!
   getPageList(before: String, after: String, first: Int, last: Int): PageConnection!
   getPostDocument(relativePath: String): PostDocument!
@@ -77,7 +79,34 @@ type Collection {
   documents(before: String, after: String, first: Int, last: Int): DocumentConnection!
 }
 
-union DocumentNode = PageDocument | PostDocument
+union DocumentNode = ThemeDocument | PageDocument | PostDocument
+
+type Theme {
+  background: String
+  primary: String
+  secondary: String
+  fontSize: String
+}
+
+type ThemeDocument implements Node & Document {
+  id: ID!
+  sys: SystemInfo!
+  data: Theme!
+  form: JSON!
+  values: JSON!
+  dataJSON: JSON!
+}
+
+type ThemeConnectionEdges {
+  cursor: String
+  node: ThemeDocument
+}
+
+type ThemeConnection implements Connection {
+  pageInfo: PageInfo
+  totalCount: Int!
+  edges: [ThemeConnectionEdges]
+}
 
 type Page {
   body: JSON
@@ -134,6 +163,8 @@ type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
+  updateThemeDocument(relativePath: String!, params: ThemeMutation!): ThemeDocument!
+  createThemeDocument(relativePath: String!, params: ThemeMutation!): ThemeDocument!
   updatePageDocument(relativePath: String!, params: PageMutation!): PageDocument!
   createPageDocument(relativePath: String!, params: PageMutation!): PageDocument!
   updatePostDocument(relativePath: String!, params: PostMutation!): PostDocument!
@@ -141,8 +172,16 @@ type Mutation {
 }
 
 input DocumentMutation {
+  theme: ThemeMutation
   page: PageMutation
   post: PostMutation
+}
+
+input ThemeMutation {
+  background: String
+  primary: String
+  secondary: String
+  fontSize: String
 }
 
 input PageMutation {

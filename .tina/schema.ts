@@ -7,14 +7,45 @@ const ThemeCollection = {
   fields: [
     {
       label: 'Background',
-      type: 'color',
-      name: 'background'
+      type: 'string',
+      name: 'background',
+      ui: {
+        component: "color",
+        colorFormat: 'hex',
+        widget: 'sketch',
+      }
+    },
+    {
+      label: 'Primary',
+      type: 'string',
+      name: 'primary',
+      ui: {
+        component: "color",
+        colorFormat: 'hex',
+        widget: 'sketch',
+      }
+    },
+    {
+      label: 'Secondary',
+      type: 'string',
+      name: 'secondary',
+      ui: {
+        component: "color",
+        colorFormat: 'hex',
+        widget: 'sketch',
+      }
+    },
+    {
+      label: 'Font Size',
+      type: 'string',
+      name: 'fontSize',
     }
   ]
 }
 
 export default defineSchema({
   collections: [
+    ThemeCollection,
     {
       label: 'Page Content',
       name: 'page',

@@ -3,6 +3,7 @@
     "type": "DocumentConnection",
     "resolveType": "multiCollectionDocumentList",
     "collections": [
+      "theme",
       "page",
       "post"
     ]
@@ -52,5 +53,17 @@
     "type": "PostConnection",
     "resolveType": "collectionDocumentList",
     "collection": "post"
+  },
+  "ThemeDocument": {
+    "type": "ThemeDocument",
+    "resolveType": "collectionDocument",
+    "collection": "theme",
+    "createThemeDocument": "create",
+    "updateThemeDocument": "update"
+  },
+  "ThemeConnection": {
+    "type": "ThemeConnection",
+    "resolveType": "collectionDocumentList",
+    "collection": "theme"
   }
 }

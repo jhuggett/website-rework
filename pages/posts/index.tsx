@@ -1,7 +1,10 @@
 import { getStaticPropsForTina } from 'tinacms'
 import { Layout } from '../../components/Layout'
 import Link from 'next/link'
+import { customGetStaticPropsForTina } from '../_app'
 export default function Posts(props) {
+  console.log({props});
+  
   const postsList = props.data.getPostList.edges
 
   return (
@@ -21,8 +24,9 @@ export default function Posts(props) {
 }
 
 export const getStaticProps = async () => {
-  const tinaProps = await getStaticPropsForTina({
-    query: `{
+  const tinaProps = await customGetStaticPropsForTina({
+    firstLine: null,
+    query: `
         getPostList{
           edges {
             node {
@@ -36,7 +40,7 @@ export const getStaticProps = async () => {
             }
           }
         }
-      }`,
+      `,
     variables: {},
   })
 

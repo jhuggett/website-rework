@@ -67,6 +67,8 @@ export type Query = {
   getDocument: DocumentNode;
   getDocumentList: DocumentConnection;
   getDocumentFields: Scalars['JSON'];
+  getThemeDocument: ThemeDocument;
+  getThemeList: ThemeConnection;
   getPageDocument: PageDocument;
   getPageList: PageConnection;
   getPostDocument: PostDocument;
@@ -91,6 +93,19 @@ export type QueryGetDocumentArgs = {
 
 
 export type QueryGetDocumentListArgs = {
+  before?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryGetThemeDocumentArgs = {
+  relativePath?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryGetThemeListArgs = {
   before?: InputMaybe<Scalars['String']>;
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -157,7 +172,38 @@ export type CollectionDocumentsArgs = {
   last?: InputMaybe<Scalars['Int']>;
 };
 
-export type DocumentNode = PageDocument | PostDocument;
+export type DocumentNode = ThemeDocument | PageDocument | PostDocument;
+
+export type Theme = {
+  __typename?: 'Theme';
+  background?: Maybe<Scalars['String']>;
+  primary?: Maybe<Scalars['String']>;
+  secondary?: Maybe<Scalars['String']>;
+  fontSize?: Maybe<Scalars['String']>;
+};
+
+export type ThemeDocument = Node & Document & {
+  __typename?: 'ThemeDocument';
+  id: Scalars['ID'];
+  sys: SystemInfo;
+  data: Theme;
+  form: Scalars['JSON'];
+  values: Scalars['JSON'];
+  dataJSON: Scalars['JSON'];
+};
+
+export type ThemeConnectionEdges = {
+  __typename?: 'ThemeConnectionEdges';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<ThemeDocument>;
+};
+
+export type ThemeConnection = Connection & {
+  __typename?: 'ThemeConnection';
+  pageInfo?: Maybe<PageInfo>;
+  totalCount: Scalars['Int'];
+  edges?: Maybe<Array<Maybe<ThemeConnectionEdges>>>;
+};
 
 export type Page = {
   __typename?: 'Page';
@@ -223,6 +269,8 @@ export type Mutation = {
   addPendingDocument: DocumentNode;
   updateDocument: DocumentNode;
   createDocument: DocumentNode;
+  updateThemeDocument: ThemeDocument;
+  createThemeDocument: ThemeDocument;
   updatePageDocument: PageDocument;
   createPageDocument: PageDocument;
   updatePostDocument: PostDocument;
@@ -251,6 +299,18 @@ export type MutationCreateDocumentArgs = {
 };
 
 
+export type MutationUpdateThemeDocumentArgs = {
+  relativePath: Scalars['String'];
+  params: ThemeMutation;
+};
+
+
+export type MutationCreateThemeDocumentArgs = {
+  relativePath: Scalars['String'];
+  params: ThemeMutation;
+};
+
+
 export type MutationUpdatePageDocumentArgs = {
   relativePath: Scalars['String'];
   params: PageMutation;
@@ -275,8 +335,16 @@ export type MutationCreatePostDocumentArgs = {
 };
 
 export type DocumentMutation = {
+  theme?: InputMaybe<ThemeMutation>;
   page?: InputMaybe<PageMutation>;
   post?: InputMaybe<PostMutation>;
+};
+
+export type ThemeMutation = {
+  background?: InputMaybe<Scalars['String']>;
+  primary?: InputMaybe<Scalars['String']>;
+  secondary?: InputMaybe<Scalars['String']>;
+  fontSize?: InputMaybe<Scalars['String']>;
 };
 
 export type PageMutation = {
@@ -290,9 +358,23 @@ export type PostMutation = {
   body?: InputMaybe<Scalars['JSON']>;
 };
 
+export type ThemePartsFragment = { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined };
+
 export type PagePartsFragment = { __typename?: 'Page', body?: any | null | undefined, hero?: string | null | undefined };
 
 export type PostPartsFragment = { __typename?: 'Post', title?: string | null | undefined, topic?: Array<string | null | undefined> | null | undefined, body?: any | null | undefined };
+
+export type GetThemeDocumentQueryVariables = Exact<{
+  relativePath: Scalars['String'];
+}>;
+
+
+export type GetThemeDocumentQuery = { __typename?: 'Query', getThemeDocument: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined } } };
+
+export type GetThemeListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetThemeListQuery = { __typename?: 'Query', getThemeList: { __typename?: 'ThemeConnection', totalCount: number, edges?: Array<{ __typename?: 'ThemeConnectionEdges', node?: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined } } | null | undefined } | null | undefined> | null | undefined } };
 
 export type GetPageDocumentQueryVariables = Exact<{
   relativePath: Scalars['String'];
@@ -318,6 +400,14 @@ export type GetPostListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetPostListQuery = { __typename?: 'Query', getPostList: { __typename?: 'PostConnection', totalCount: number, edges?: Array<{ __typename?: 'PostConnectionEdges', node?: { __typename?: 'PostDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Post', title?: string | null | undefined, topic?: Array<string | null | undefined> | null | undefined, body?: any | null | undefined } } | null | undefined } | null | undefined> | null | undefined } };
 
+export const ThemePartsFragmentDoc = gql`
+    fragment ThemeParts on Theme {
+  background
+  primary
+  secondary
+  fontSize
+}
+    `;
 export const PagePartsFragmentDoc = gql`
     fragment PageParts on Page {
   body
@@ -331,6 +421,47 @@ export const PostPartsFragmentDoc = gql`
   body
 }
     `;
+export const GetThemeDocumentDocument = gql`
+    query getThemeDocument($relativePath: String!) {
+  getThemeDocument(relativePath: $relativePath) {
+    sys {
+      filename
+      basename
+      breadcrumbs
+      path
+      relativePath
+      extension
+    }
+    id
+    data {
+      ...ThemeParts
+    }
+  }
+}
+    ${ThemePartsFragmentDoc}`;
+export const GetThemeListDocument = gql`
+    query getThemeList {
+  getThemeList {
+    totalCount
+    edges {
+      node {
+        id
+        sys {
+          filename
+          basename
+          breadcrumbs
+          path
+          relativePath
+          extension
+        }
+        data {
+          ...ThemeParts
+        }
+      }
+    }
+  }
+}
+    ${ThemePartsFragmentDoc}`;
 export const GetPageDocumentDocument = gql`
     query getPageDocument($relativePath: String!) {
   getPageDocument(relativePath: $relativePath) {
@@ -416,7 +547,13 @@ export const GetPostListDocument = gql`
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-      getPageDocument(variables: GetPageDocumentQueryVariables, options?: C): Promise<{data: GetPageDocumentQuery, variables: GetPageDocumentQueryVariables, query: string}> {
+      getThemeDocument(variables: GetThemeDocumentQueryVariables, options?: C): Promise<{data: GetThemeDocumentQuery, variables: GetThemeDocumentQueryVariables, query: string}> {
+        return requester<{data: GetThemeDocumentQuery, variables: GetThemeDocumentQueryVariables, query: string}, GetThemeDocumentQueryVariables>(GetThemeDocumentDocument, variables, options);
+      },
+    getThemeList(variables?: GetThemeListQueryVariables, options?: C): Promise<{data: GetThemeListQuery, variables: GetThemeListQueryVariables, query: string}> {
+        return requester<{data: GetThemeListQuery, variables: GetThemeListQueryVariables, query: string}, GetThemeListQueryVariables>(GetThemeListDocument, variables, options);
+      },
+    getPageDocument(variables: GetPageDocumentQueryVariables, options?: C): Promise<{data: GetPageDocumentQuery, variables: GetPageDocumentQueryVariables, query: string}> {
         return requester<{data: GetPageDocumentQuery, variables: GetPageDocumentQueryVariables, query: string}, GetPageDocumentQueryVariables>(GetPageDocumentDocument, variables, options);
       },
     getPageList(variables?: GetPageListQueryVariables, options?: C): Promise<{data: GetPageListQuery, variables: GetPageListQueryVariables, query: string}> {

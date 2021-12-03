@@ -3,6 +3,7 @@ import { Layout } from '../../components/Layout'
 import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import styled from 'styled-components'
 import Image from 'next/image'
+import { customGetStaticPropsForTina } from '../_app'
 
 const Gallery = props => {
   console.log({...props});
@@ -82,15 +83,15 @@ export const getStaticPaths = async () => {
   }
 }
 export const getStaticProps = async (ctx) => {
-  const tinaProps = await getStaticPropsForTina({
-    query: `query getPost($relativePath: String!) {
+  const tinaProps = await customGetStaticPropsForTina({
+    firstLine: 'query getPost($relativePath: String!)',
+    query: `
         getPostDocument(relativePath: $relativePath) {
           data {
             title
             body
           }
         }
-      }
       `,
     variables: {
       relativePath: ctx.params.slug + '.mdx',

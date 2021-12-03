@@ -1,6 +1,48 @@
 {
   "collections": [
     {
+      "label": "Theme",
+      "name": "theme",
+      "path": "content/theme",
+      "fields": [
+        {
+          "label": "Background",
+          "type": "string",
+          "name": "background",
+          "ui": {
+            "component": "color",
+            "colorFormat": "hex",
+            "widget": "sketch"
+          }
+        },
+        {
+          "label": "Primary",
+          "type": "string",
+          "name": "primary",
+          "ui": {
+            "component": "color",
+            "colorFormat": "hex",
+            "widget": "sketch"
+          }
+        },
+        {
+          "label": "Secondary",
+          "type": "string",
+          "name": "secondary",
+          "ui": {
+            "component": "color",
+            "colorFormat": "hex",
+            "widget": "sketch"
+          }
+        },
+        {
+          "label": "Font Size",
+          "type": "string",
+          "name": "fontSize"
+        }
+      ]
+    },
+    {
       "label": "Page Content",
       "name": "page",
       "path": "content/page",
