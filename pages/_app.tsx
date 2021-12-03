@@ -44,35 +44,40 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 const ThemeDropdownContent = styled.div`
-  display: block;
+  display: none;
   position: absolute;
   min-width: 160px;
   z-index: 100;
 
   background-color: ${props => props.theme.secondary};
 
+  &:hover {
+    display: block;
+  }
+
 `
 
 const ThemeDropdownButton = styled.div`
-
   padding: 16px;
+
+  border-radius: 5px;
 
   background-color: ${props => props.theme.primary};
   color: ${props => props.theme.background};
-
-  & > ${ThemeDropdownContent}:hover {
-    
-    background-color: blue;
-    
-    display: none;
-    
-  }
-
 `
 
 const ThemeDropDown = styled.div`
   position: relative;
   display: inline-block;
+
+  cursor: pointer;
+
+
+  font-size: .25em;
+  
+  &:hover ${ThemeDropdownContent} {
+    display: block;
+  }
 
 `
 
