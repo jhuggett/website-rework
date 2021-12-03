@@ -49,12 +49,12 @@ export default function Home(props) {
   const { data } = props.data.getPostDocument
 
   return (
-    <Layout>
+    <>
       <h1>
         {data.title}
       </h1>
       <TinaMarkdown components={components} content={data.body} />
-    </Layout>
+    </>
   )
 }
 

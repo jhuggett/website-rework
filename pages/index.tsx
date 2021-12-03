@@ -9,9 +9,9 @@ export default function Home(props) {
   const { data } = props.data.getPageDocument
   const content = data.body
   return (
-    <Layout>
+      <>
       <TinaMarkdown content={content} />
-    </Layout>
+      </>
   )
 }
 

@@ -3,12 +3,11 @@ import { Layout } from '../../components/Layout'
 import Link from 'next/link'
 import { customGetStaticPropsForTina } from '../_app'
 export default function Posts(props) {
-  console.log({props});
   
   const postsList = props.data.getPostList.edges
 
   return (
-    <Layout>
+    <div>
       <h1>Posts</h1>
       <ul>
         {postsList.map((post) => (
@@ -19,7 +18,7 @@ export default function Posts(props) {
           </li>
         ))}
       </ul>
-    </Layout>
+    </div>
   )
 }
 

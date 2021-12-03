@@ -5,6 +5,7 @@ import { TinaCloudCloudinaryMediaStore } from 'next-tinacms-cloudinary'
 import { getStaticPropsForTina } from 'tinacms'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 
 // @ts-ignore FIXME: default export needs to be 'ComponentType<{}>
@@ -89,6 +90,11 @@ const ThemeDropdownOptions = styled.div`
 
 `
 
+const Nav = styled.div`
+  width: 100%;
+  text-align: center;
+`
+
 const App = ({ Component, pageProps }) => {
   console.log({
     appProps: pageProps
@@ -144,6 +150,15 @@ const App = ({ Component, pageProps }) => {
             })}
           </ThemeDropdownContent>
         </ThemeDropDown>
+        <Nav>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+        {' ~ '}
+        <Link href="/posts">
+          <a>Posts</a>
+        </Link>
+        </Nav>
         <Component {...props} />
       </ThemeProvider>
     )
