@@ -1,7 +1,7 @@
 ---
-background: '#000000'
-primary: '#D34421'
-secondary: '#F8E71C'
-fontSize: 7.5em
+background: '#282828'
+primary: '#33FF00'
+secondary: '#FFB000'
+fontSize: 'clamp(1rem, 10vw, 7.5rem)'
 ---
 

@@ -6,6 +6,13 @@ import { getStaticPropsForTina } from 'tinacms'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import Head from 'next/head'
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleDown, faSwatchbook, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 
 // @ts-ignore FIXME: default export needs to be 'ComponentType<{}>
@@ -17,8 +24,9 @@ const NEXT_PUBLIC_USE_LOCAL_CLIENT =
 
 
 const availibleThemes = [
+  'dark',
   'light',
-  'dark'
+  'ouch'
 ]
 
 const GlobalStyle = createGlobalStyle`
@@ -27,7 +35,11 @@ const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.primary};
     
     font-size: ${props => props.theme.fontSize};
+
+    word-wrap: break-word;
   }
+
+
 
   h1, h2, h3, h4, h5, h6 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -35,20 +47,36 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${props => props.theme.secondary}
+    color: ${props => props.theme.secondary};
+
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
   }
 
   html, body, #__next {
-    height: 100%;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
     overflow-x: hidden;
   }
 `
 const ThemeDropdownContent = styled.div`
   display: none;
   position: absolute;
+  right: 0;
+  margin-right: 15px;
+  
   min-width: 160px;
   z-index: 100;
+
+
+
+  transition-duration: 1s;
 
   background-color: ${props => props.theme.secondary};
 
@@ -59,24 +87,42 @@ const ThemeDropdownContent = styled.div`
 `
 
 const ThemeDropdownButton = styled.div`
-  padding: 16px;
 
-  border-radius: 5px;
+  
+  font-size: 3rem;
+  
+  line-height: 0;
+  margin: 25px;
 
-  background-color: ${props => props.theme.primary};
-  color: ${props => props.theme.background};
+
+  
+  color: ${props => props.theme.secondary};
+
+  &:hover {
+    
+  
+  }
 `
 
 const ThemeDropDown = styled.div`
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 0;
+
   display: inline-block;
 
   cursor: pointer;
 
+  text-align: center;
+
+
+
 
   font-size: .25em;
+
   
   &:hover ${ThemeDropdownContent} {
+
     display: block;
   }
 
@@ -88,11 +134,27 @@ const ThemeDropdownOptions = styled.div`
   display: block;
   padding: 12px 16px;
 
+  border-style: solid;
+  border-width: 6px;
+  border-color: ${props => props.theme.background};
+
+  color: ${props => props.theme.background};
+
+
+  &:hover {
+    
+    background-color: ${props => props.theme.primary};
+  }
+
 `
 
 const Nav = styled.div`
   width: 100%;
-  text-align: center;
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+
 `
 
 const App = ({ Component, pageProps }) => {
@@ -112,6 +174,7 @@ const App = ({ Component, pageProps }) => {
     if (pageProps.data?.[themeName]) {
       const { background, primary, secondary, fontSize } = pageProps.data[themeName]?.data
       setTheme({
+        name: themeName,
         background, 
         primary,
         secondary,
@@ -131,33 +194,34 @@ const App = ({ Component, pageProps }) => {
   console.log({
     appProps: pageProps
   });
+
+  
   
 
   const ThemeWrappedComponent = (props) => {
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        
         <ThemeDropDown>
-          <ThemeDropdownButton>Change Themes</ThemeDropdownButton>
+          <ThemeDropdownButton><FontAwesomeIcon icon={faSwatchbook} /></ThemeDropdownButton>
           <ThemeDropdownContent>
             {availibleThemes.map(i => {
               return (
                 <ThemeDropdownOptions onClick={() => updateTheme(i)}>
-                  {i}
+                  {i} {theme?.['name'] == i && <FontAwesomeIcon icon={faCheck} />}
                 </ThemeDropdownOptions>
               )
             })}
           </ThemeDropdownContent>
         </ThemeDropDown>
         <Nav>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-        {' ~ '}
-        <Link href="/posts">
-          <a>Posts</a>
-        </Link>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+          <NavSeperator />
+          <Link href="/posts">
+            <a>Posts</a>
+          </Link>
         </Nav>
         <Component {...props} />
       </ThemeProvider>
@@ -175,6 +239,7 @@ const App = ({ Component, pageProps }) => {
             mediaStore={TinaCloudCloudinaryMediaStore}
             cmsCallback={cms => {
               cms.flags.set("tina-admin", true)
+              cms.flags.set("branch-switcher", true)
             }}
             {...pageProps}
           >
@@ -184,6 +249,29 @@ const App = ({ Component, pageProps }) => {
       >
         <ThemeWrappedComponent {...pageProps} />
       </TinaEditProvider>
+  )
+}
+
+
+const NavSeperatorStyle = styled.div`
+  font-size: 1em;
+  
+  height: fit-content;
+
+  line-height: 0;
+
+
+
+  margin: 0 .5em 0 .5em;
+
+
+`
+
+const NavSeperator = () => {
+  return (
+    <NavSeperatorStyle>
+      {'~'}
+    </NavSeperatorStyle>
   )
 }
 
@@ -207,8 +295,7 @@ export const customGetStaticPropsForTina = (context: {
     query: `
       ${context.firstLine || ''} {
         ${context.query}
-        ${themeFragment('light')}
-        ${themeFragment('dark')}
+        ${availibleThemes.map(i => themeFragment(i))}
       }
     `,
     variables: context.variables

@@ -49,14 +49,20 @@ export default function Home(props) {
   const { data } = props.data.getPostDocument
 
   return (
-    <>
+    <Page>
       <h1>
         {data.title}
       </h1>
       <TinaMarkdown components={components} content={data.body} />
-    </>
+    </Page>
   )
 }
+
+const Page = styled.div`
+
+  margin: 1em;
+
+`
 
 export const getStaticPaths = async () => {
   const tinaProps = await getStaticPropsForTina({
