@@ -64,6 +64,23 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     overflow-x: hidden;
   }
+
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px ${props => props.theme.background};
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: ${props => props.theme.secondary};
+    
+    border-radius: 1em;
+
+  }
 `
 const ThemeDropdownContent = styled.div`
   display: none;
