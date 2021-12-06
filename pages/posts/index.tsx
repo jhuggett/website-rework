@@ -80,6 +80,8 @@ const PostCard = styled.a`
   margin: 16px;
   padding: 32px;
 
+  transition-duration: .5s;
+
 &:hover {
   cursor: pointer;
   

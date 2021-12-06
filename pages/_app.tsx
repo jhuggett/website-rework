@@ -51,6 +51,7 @@ const GlobalStyle = createGlobalStyle`
 
     text-decoration: none;
 
+
     &:hover {
       text-decoration: underline;
     }
@@ -83,22 +84,24 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 const ThemeDropdownContent = styled.div`
-  display: none;
+  
+  
   position: absolute;
   right: 0;
-  margin-right: 15px;
+  margin-right: -200px;
   
   min-width: 160px;
   z-index: 100;
 
 
 
-  transition-duration: 1s;
+  transition-duration: .25s;
 
   background-color: ${props => props.theme.secondary};
 
   &:hover {
-    display: block;
+    margin-right: 15px;
+    
   }
 
 `
@@ -134,13 +137,12 @@ const ThemeDropDown = styled.div`
 
 
 
-
   font-size: .25em;
 
   
   &:hover ${ThemeDropdownContent} {
 
-    display: block;
+    margin-right: 15px;
   }
 
 `
