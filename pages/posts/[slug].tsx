@@ -14,20 +14,33 @@ const Gallery = props => {
     <StyledGallery alignment={alignment || 'center'} gap={gap} >
       {images && images.map( i => {
         const { width, height, src } = i
-        return <Image 
+        return <StyledImage><Image 
           src={src || 'http://res.cloudinary.com/dza6vysyp/image/upload/w\_1000,h\_1000,c\_fill,q\_auto/v1613580742/sample.jpg'}
           width={width || 100}
           height={height || 100}
-        />
+          
+        /></StyledImage>
       })}
     </StyledGallery>
   )
 }
 
+const StyledImage = styled.div`
+
+  display: flex;
+  
+  border-radius: 12%;
+  overflow: hidden;
+  border-width: 16px;
+  border-style: double;
+  border-color: ${props => props.theme.primary};
+  
+`
+
 const StyledGallery = styled.div`
   width: 100%;
 
-  padding: 1em 1em 1em 1em;
+
   
 
   display: flex;
@@ -60,7 +73,7 @@ export default function Home(props) {
 
 const Page = styled.div`
 
-  margin: 1em;
+  margin: 5vw;
 
 `
 

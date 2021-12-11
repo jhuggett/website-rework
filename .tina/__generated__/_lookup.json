@@ -18,17 +18,17 @@
     "createDocument": "create",
     "updateDocument": "update"
   },
-  "PostsDocument": {
-    "type": "PostsDocument",
+  "ThemeDocument": {
+    "type": "ThemeDocument",
     "resolveType": "collectionDocument",
-    "collection": "posts",
-    "createPostsDocument": "create",
-    "updatePostsDocument": "update"
+    "collection": "theme",
+    "createThemeDocument": "create",
+    "updateThemeDocument": "update"
   },
-  "PostsConnection": {
-    "type": "PostsConnection",
+  "ThemeConnection": {
+    "type": "ThemeConnection",
     "resolveType": "collectionDocumentList",
-    "collection": "posts"
+    "collection": "theme"
   },
   "PageDocument": {
     "type": "PageDocument",
@@ -53,17 +53,5 @@
     "type": "PostConnection",
     "resolveType": "collectionDocumentList",
     "collection": "post"
-  },
-  "ThemeDocument": {
-    "type": "ThemeDocument",
-    "resolveType": "collectionDocument",
-    "collection": "theme",
-    "createThemeDocument": "create",
-    "updateThemeDocument": "update"
-  },
-  "ThemeConnection": {
-    "type": "ThemeConnection",
-    "resolveType": "collectionDocumentList",
-    "collection": "theme"
   }
 }

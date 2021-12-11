@@ -37,13 +37,17 @@ const GlobalStyle = createGlobalStyle`
     font-size: ${props => props.theme.fontSize};
 
     word-wrap: break-word;
+
+    
   }
 
 
 
   h1, h2, h3, h4, h5, h6 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    
+    width: 100%;
+    text-align: center;
+    line-height: 1;
   }
 
   a {
@@ -56,6 +60,12 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: underline;
     }
 
+  }
+
+  p {
+    font-size: .5em;
+    text-indent: 1em;
+    
   }
 
   html, body, #__next {
