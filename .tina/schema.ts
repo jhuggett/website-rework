@@ -133,6 +133,6 @@ export default defineSchema({
           ]
         },
       ],
-    },
+    }
   ],
 })

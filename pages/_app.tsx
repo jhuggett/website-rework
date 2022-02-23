@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
     word-wrap: break-word;
 
     
-  }// triggering redeploy
+  }
 
 
   h1, h2, h3, h4, h5, h6 {
@@ -186,9 +186,15 @@ const Nav = styled.div`
 `
 
 const App = ({ Component, pageProps }) => {
-  console.log({
-    appProps: pageProps
-  });
+  
+  const themes = pageProps.themes.data.getThemeList.edges.map(
+    edge => {
+      return {
+        name: edge.node.id.split('/')[2].split('.')[0],
+        data: edge.node.data
+      }
+    }
+  )
 
   const [theme, setTheme] = useState({})
 
@@ -198,9 +204,14 @@ const App = ({ Component, pageProps }) => {
     }
 
     const themeName = localStorage.getItem('theme')
+    const themeByName = themes.filter(t => t.name === themeName)?.[0]
+    if (themeByName) {
 
-    if (pageProps.data?.[themeName]) {
-      const { background, primary, secondary, fontSize } = pageProps.data[themeName]?.data
+      const { background, primary, secondary, fontSize } = themeByName.data
+      console.log({
+        themeByName
+      });
+      
       setTheme({
         name: themeName,
         background, 
@@ -218,10 +229,6 @@ const App = ({ Component, pageProps }) => {
         updateTheme()
       }
   }, [])
-
-  console.log({
-    appProps: pageProps
-  });
 
   
   
@@ -313,6 +320,7 @@ export const themeFragment = (name) => `
     }
   }
 `
+
 
 export const customGetStaticPropsForTina = (context: {
   firstLine: string | null,

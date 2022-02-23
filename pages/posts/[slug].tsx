@@ -4,69 +4,62 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { customGetStaticPropsForTina } from '../_app'
+import { GallerySchema, Gallery } from '../../components/gallery'
+import { ExperimentalGetTinaClient } from "../../.tina/__generated__/types";
+import { useTina } from 'tinacms/dist/edit-state'
 
-const Gallery = props => {
-  console.log({...props});
-
-  const { alignment, images, gap } = props
-
-  return (
-    <StyledGallery alignment={alignment || 'center'} gap={gap} >
-      {images && images.map( i => {
-        const { width, height, src } = i
-        return <StyledImage><Image 
-          src={src || 'http://res.cloudinary.com/dza6vysyp/image/upload/w\_1000,h\_1000,c\_fill,q\_auto/v1613580742/sample.jpg'}
-          width={width || 100}
-          height={height || 100}
-          
-        /></StyledImage>
-      })}
-    </StyledGallery>
-  )
+export const BlogPostSchema = {
+  label: 'Blog Posts',
+  name: 'post',
+  path: 'content/post',
+  format: 'mdx',
+  fields: [
+    {
+      type: 'string',
+      label: 'Title',
+      name: 'title',
+    },
+    {
+      type: 'string',
+      label: 'Topic',
+      name: 'topic',
+      options: ['programming', 'blacksmithing'],
+      list: true
+    },
+    {
+      type: 'rich-text',
+      label: 'Blog Post Body',
+      name: 'body',
+      isBody: true,
+      templates: [
+        GallerySchema
+      ]
+    },
+  ],
 }
 
-const StyledImage = styled.div`
 
-  display: flex;
-  
-  border-radius: 12%;
-  overflow: hidden;
-  border-width: 16px;
-  border-style: double;
-  border-color: ${props => props.theme.primary};
-  
-`
-
-const StyledGallery = styled.div`
-  width: 100%;
-
-
-  
-
-  display: flex;
-  flex-wrap: wrap;
-  align-items: ${props => props.alignment};
-  justify-content: ${props => props.alignment};
-  column-gap: ${props => props.gap};
-  row-gap: ${props => props.gap};
-
-`
 
 const components = {
   Gallery: Gallery
 }
 
-export default function Home(props) {
+export default function Post(props) {
+  console.log(props.post);
+  
+  const { data} : any = useTina({...props.post})
 
+  const content = data.getPostDocument.data
 
-  const { data } = props.data.getPostDocument
+  console.log({content});
+  
 
   return (
     <Page>
       <h1>
-        {data.title}
+        {content.title}
       </h1>
-      <TinaMarkdown components={components} content={data.body} />
+      <TinaMarkdown components={components} content={content.body} />
     </Page>
   )
 }
@@ -78,21 +71,10 @@ const Page = styled.div`
 `
 
 export const getStaticPaths = async () => {
-  const tinaProps = await getStaticPropsForTina({
-    query: `{
-        getPostList{
-          edges {
-            node {
-              sys {
-                filename
-              }
-            }
-          }
-        }
-      }`,
-    variables: {},
-  })
-  const paths = tinaProps.data.getPostList.edges.map((x) => {
+  const client = ExperimentalGetTinaClient()
+  const posts = await client.getPostList()
+
+  const paths = posts.data.getPostList.edges.map((x) => {
     return { params: { slug: x.node.sys.filename } }
   })
 
@@ -101,25 +83,16 @@ export const getStaticPaths = async () => {
     fallback: 'blocking',
   }
 }
+
 export const getStaticProps = async (ctx) => {
-  const tinaProps = await customGetStaticPropsForTina({
-    firstLine: 'query getPost($relativePath: String!)',
-    query: `
-        getPostDocument(relativePath: $relativePath) {
-          data {
-            title
-            body
-          }
-        }
-      `,
-    variables: {
-      relativePath: ctx.params.slug + '.mdx',
-    },
-  })
+  const client = ExperimentalGetTinaClient()
+  const post = await client.getPostDocument({relativePath: ctx.params.slug + '.mdx'})
+  const themes = await client.getThemeList()
 
   return {
     props: {
-      ...tinaProps,
+      post,
+      themes
     },
   }
 }
