@@ -1,8 +1,8 @@
 fragment ThemeParts on Theme {
+  name
   background
   primary
   secondary
-  fontSize
 }
 
 fragment PageParts on Page {

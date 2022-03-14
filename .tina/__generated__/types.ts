@@ -176,10 +176,10 @@ export type DocumentNode = ThemeDocument | PageDocument | PostDocument;
 
 export type Theme = {
   __typename?: 'Theme';
+  name?: Maybe<Scalars['String']>;
   background?: Maybe<Scalars['String']>;
   primary?: Maybe<Scalars['String']>;
   secondary?: Maybe<Scalars['String']>;
-  fontSize?: Maybe<Scalars['String']>;
 };
 
 export type ThemeDocument = Node & Document & {
@@ -341,10 +341,10 @@ export type DocumentMutation = {
 };
 
 export type ThemeMutation = {
+  name?: InputMaybe<Scalars['String']>;
   background?: InputMaybe<Scalars['String']>;
   primary?: InputMaybe<Scalars['String']>;
   secondary?: InputMaybe<Scalars['String']>;
-  fontSize?: InputMaybe<Scalars['String']>;
 };
 
 export type PageMutation = {
@@ -358,54 +358,54 @@ export type PostMutation = {
   body?: InputMaybe<Scalars['JSON']>;
 };
 
-export type ThemePartsFragment = { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined };
+export type ThemePartsFragment = { __typename?: 'Theme', name?: string | null, background?: string | null, primary?: string | null, secondary?: string | null };
 
-export type PagePartsFragment = { __typename?: 'Page', body?: any | null | undefined, hero?: string | null | undefined };
+export type PagePartsFragment = { __typename?: 'Page', body?: any | null, hero?: string | null };
 
-export type PostPartsFragment = { __typename?: 'Post', title?: string | null | undefined, topic?: Array<string | null | undefined> | null | undefined, body?: any | null | undefined };
+export type PostPartsFragment = { __typename?: 'Post', title?: string | null, topic?: Array<string | null> | null, body?: any | null };
 
 export type GetThemeDocumentQueryVariables = Exact<{
   relativePath: Scalars['String'];
 }>;
 
 
-export type GetThemeDocumentQuery = { __typename?: 'Query', getThemeDocument: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined } } };
+export type GetThemeDocumentQuery = { __typename?: 'Query', getThemeDocument: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', name?: string | null, background?: string | null, primary?: string | null, secondary?: string | null } } };
 
 export type GetThemeListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetThemeListQuery = { __typename?: 'Query', getThemeList: { __typename?: 'ThemeConnection', totalCount: number, edges?: Array<{ __typename?: 'ThemeConnectionEdges', node?: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', background?: string | null | undefined, primary?: string | null | undefined, secondary?: string | null | undefined, fontSize?: string | null | undefined } } | null | undefined } | null | undefined> | null | undefined } };
+export type GetThemeListQuery = { __typename?: 'Query', getThemeList: { __typename?: 'ThemeConnection', totalCount: number, edges?: Array<{ __typename?: 'ThemeConnectionEdges', node?: { __typename?: 'ThemeDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Theme', name?: string | null, background?: string | null, primary?: string | null, secondary?: string | null } } | null } | null> | null } };
 
 export type GetPageDocumentQueryVariables = Exact<{
   relativePath: Scalars['String'];
 }>;
 
 
-export type GetPageDocumentQuery = { __typename?: 'Query', getPageDocument: { __typename?: 'PageDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Page', body?: any | null | undefined, hero?: string | null | undefined } } };
+export type GetPageDocumentQuery = { __typename?: 'Query', getPageDocument: { __typename?: 'PageDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Page', body?: any | null, hero?: string | null } } };
 
 export type GetPageListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPageListQuery = { __typename?: 'Query', getPageList: { __typename?: 'PageConnection', totalCount: number, edges?: Array<{ __typename?: 'PageConnectionEdges', node?: { __typename?: 'PageDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Page', body?: any | null | undefined, hero?: string | null | undefined } } | null | undefined } | null | undefined> | null | undefined } };
+export type GetPageListQuery = { __typename?: 'Query', getPageList: { __typename?: 'PageConnection', totalCount: number, edges?: Array<{ __typename?: 'PageConnectionEdges', node?: { __typename?: 'PageDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Page', body?: any | null, hero?: string | null } } | null } | null> | null } };
 
 export type GetPostDocumentQueryVariables = Exact<{
   relativePath: Scalars['String'];
 }>;
 
 
-export type GetPostDocumentQuery = { __typename?: 'Query', getPostDocument: { __typename?: 'PostDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Post', title?: string | null | undefined, topic?: Array<string | null | undefined> | null | undefined, body?: any | null | undefined } } };
+export type GetPostDocumentQuery = { __typename?: 'Query', getPostDocument: { __typename?: 'PostDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Post', title?: string | null, topic?: Array<string | null> | null, body?: any | null } } };
 
 export type GetPostListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostListQuery = { __typename?: 'Query', getPostList: { __typename?: 'PostConnection', totalCount: number, edges?: Array<{ __typename?: 'PostConnectionEdges', node?: { __typename?: 'PostDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Post', title?: string | null | undefined, topic?: Array<string | null | undefined> | null | undefined, body?: any | null | undefined } } | null | undefined } | null | undefined> | null | undefined } };
+export type GetPostListQuery = { __typename?: 'Query', getPostList: { __typename?: 'PostConnection', totalCount: number, edges?: Array<{ __typename?: 'PostConnectionEdges', node?: { __typename?: 'PostDocument', id: string, sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, data: { __typename?: 'Post', title?: string | null, topic?: Array<string | null> | null, body?: any | null } } | null } | null> | null } };
 
 export const ThemePartsFragmentDoc = gql`
     fragment ThemeParts on Theme {
+  name
   background
   primary
   secondary
-  fontSize
 }
     `;
 export const PagePartsFragmentDoc = gql`

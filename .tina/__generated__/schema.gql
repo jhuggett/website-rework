@@ -82,10 +82,10 @@ type Collection {
 union DocumentNode = ThemeDocument | PageDocument | PostDocument
 
 type Theme {
+  name: String
   background: String
   primary: String
   secondary: String
-  fontSize: String
 }
 
 type ThemeDocument implements Node & Document {
@@ -178,10 +178,10 @@ input DocumentMutation {
 }
 
 input ThemeMutation {
+  name: String
   background: String
   primary: String
   secondary: String
-  fontSize: String
 }
 
 input PageMutation {

@@ -1375,6 +1375,21 @@
           "kind": "FieldDefinition",
           "name": {
             "kind": "Name",
+            "value": "name"
+          },
+          "arguments": [],
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "String"
+            }
+          }
+        },
+        {
+          "kind": "FieldDefinition",
+          "name": {
+            "kind": "Name",
             "value": "background"
           },
           "arguments": [],
@@ -1406,21 +1421,6 @@
           "name": {
             "kind": "Name",
             "value": "secondary"
-          },
-          "arguments": [],
-          "type": {
-            "kind": "NamedType",
-            "name": {
-              "kind": "Name",
-              "value": "String"
-            }
-          }
-        },
-        {
-          "kind": "FieldDefinition",
-          "name": {
-            "kind": "Name",
-            "value": "fontSize"
           },
           "arguments": [],
           "type": {
@@ -2860,6 +2860,20 @@
           "kind": "InputValueDefinition",
           "name": {
             "kind": "Name",
+            "value": "name"
+          },
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "String"
+            }
+          }
+        },
+        {
+          "kind": "InputValueDefinition",
+          "name": {
+            "kind": "Name",
             "value": "background"
           },
           "type": {
@@ -2889,20 +2903,6 @@
           "name": {
             "kind": "Name",
             "value": "secondary"
-          },
-          "type": {
-            "kind": "NamedType",
-            "name": {
-              "kind": "Name",
-              "value": "String"
-            }
-          }
-        },
-        {
-          "kind": "InputValueDefinition",
-          "name": {
-            "kind": "Name",
-            "value": "fontSize"
           },
           "type": {
             "kind": "NamedType",

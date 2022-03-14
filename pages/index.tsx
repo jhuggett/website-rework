@@ -1,17 +1,15 @@
-import { getStaticPropsForTina } from 'tinacms'
 import { TinaMarkdown } from 'tinacms/dist/rich-text'
-import { Layout } from '../components/Layout'
-import Image from 'next/image'
-import { themeFragment, customGetStaticPropsForTina } from './_app'
 import styled from 'styled-components'
+import { ExperimentalGetTinaClient } from '../.tina/__generated__/types'
+import { useTina } from 'tinacms/dist/edit-state'
 
 
 export default function Home(props) {
-  const { data } = props.data.getPageDocument
-  const content = data.body
+  const { data }: any = useTina(props.page)
+  const content = data.getPageDocument.data
   return (
       <Page>
-      <TinaMarkdown content={content} />
+      <TinaMarkdown data-tinafield="body" content={content.body} />
       </Page>
   )
 }
@@ -23,22 +21,14 @@ const Page = styled.div`
 `
 
 export const getStaticProps = async () => {
-  const tinaProps = await customGetStaticPropsForTina({
-    firstLine: null,
-    query: `
-    getPageDocument(relativePath: "home.mdx"){
-      data{
-        body
-        hero
-      }
-    }
-  `,
-    variables: {},
-  })
+  const client = ExperimentalGetTinaClient()
+  const page = await client.getPageDocument({relativePath: 'home.mdx'})
+  const themes = await client.getThemeList()
 
   return {
     props: {
-      ...tinaProps,
+      page,
+      themes
     },
   }
 }

@@ -2,18 +2,8 @@ import dynamic from 'next/dynamic'
 import { TinaEditProvider } from 'tinacms/dist/edit-state'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { TinaCloudCloudinaryMediaStore } from 'next-tinacms-cloudinary'
-import { getStaticPropsForTina } from 'tinacms'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
-import Head from 'next/head'
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-config.autoAddCss = false
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDoubleDown, faSwatchbook, faCheck } from '@fortawesome/free-solid-svg-icons'
-
+import { Theme } from '../.tina/__generated__/types'
 
 // @ts-ignore FIXME: default export needs to be 'ComponentType<{}>
 const TinaCMS = dynamic(() => import('tinacms'), { ssr: false })
@@ -22,19 +12,12 @@ const NEXT_PUBLIC_TINA_CLIENT_ID = process.env.NEXT_PUBLIC_TINA_CLIENT_ID
 const NEXT_PUBLIC_USE_LOCAL_CLIENT =
   process.env.NEXT_PUBLIC_USE_LOCAL_CLIENT || true
 
-
-const availibleThemes = [
-  'dark',
-  'light',
-  'ouch'
-]
-
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.background};
     color: ${props => props.theme.primary};
     
-    font-size: ${props => props.theme.fontSize};
+    font-size: clamp(1rem, 10vw, 5rem);
 
     word-wrap: break-word;
 
@@ -47,6 +30,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     text-align: center;
     line-height: 1;
+    margin-bottom: 1rem;
   }
 
   a {
@@ -70,8 +54,8 @@ const GlobalStyle = createGlobalStyle`
   html, body, #__next {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
+    width: 100%;
+    box-sizing: border-box;
     overflow-x: hidden;
   }
 
@@ -92,252 +76,91 @@ const GlobalStyle = createGlobalStyle`
 
   }
 `
-const ThemeDropdownContent = styled.div`
-  
-  
-  position: absolute;
-  right: 0;
-  margin-right: -200px;
-  
-  min-width: 160px;
-  z-index: 100;
 
-
-
-  transition-duration: .25s;
-
-  background-color: ${props => props.theme.secondary};
-
-  &:hover {
-    margin-right: 15px;
-    
-  }
-
-`
-
-const ThemeDropdownButton = styled.div`
-
-  
-  font-size: 3rem;
-  
-  line-height: 0;
-  margin: 25px;
-
-
-  
-  color: ${props => props.theme.secondary};
-
-  &:hover {
-    
-  
-  }
-`
-
-const ThemeDropDown = styled.div`
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  display: inline-block;
-
-  cursor: pointer;
-
-  text-align: center;
-
-
-
-  font-size: .25em;
-
-  
-  &:hover ${ThemeDropdownContent} {
-
-    margin-right: 15px;
-  }
-
-`
-
-
-
-const ThemeDropdownOptions = styled.div`
-  display: block;
-  padding: 12px 16px;
-
-  border-style: solid;
-  border-width: 6px;
-  border-color: ${props => props.theme.background};
-
-  color: ${props => props.theme.background};
-
-
-  &:hover {
-    
-    background-color: ${props => props.theme.primary};
-  }
-
-`
-
-const Nav = styled.div`
-  width: 100%;
-  display: flex;
-  
-  justify-content: center;
-  align-items: center;
-
-`
 
 const App = ({ Component, pageProps }) => {
-  
-  const themes = pageProps.themes.data.getThemeList.edges.map(
-    edge => {
-      return {
-        name: edge.node.id.split('/')[2].split('.')[0],
-        data: edge.node.data
-      }
-    }
-  )
+  const themeDocuments: Theme[] = pageProps.themes?.data.getThemeList.edges.map(i => i.node.data) || []
 
-  const [theme, setTheme] = useState({})
+  const [currentTheme, setCurrentTheme] = useState<Theme>({})
 
-  const updateTheme = (to: string = null) => {
-    if (to) {
-      localStorage.setItem('theme', to)
-    }
-
-    const themeName = localStorage.getItem('theme')
-    const themeByName = themes.filter(t => t.name === themeName)?.[0]
-    if (themeByName) {
-
-      const { background, primary, secondary, fontSize } = themeByName.data
-      console.log({
-        themeByName
-      });
-      
-      setTheme({
-        name: themeName,
-        background, 
-        primary,
-        secondary,
-        fontSize
-      })
-    }
+  const themes = {
+    set: (theme: Theme) => {
+      localStorage.setItem('theme', theme.name)
+      setCurrentTheme(theme)
+    },
+    get: () => {
+      return themeDocuments
+    },
+    find: (name: string) => {
+      return themes.get().filter(theme => theme.name === name)[0]
+    },
+    current: () => currentTheme
   }
-  
+
   useEffect(() => {
-      if (!localStorage.getItem('theme')) {
-        updateTheme('light')
-      } else {
-        updateTheme()
+      if (themeDocuments.length > 0) {
+        if (!localStorage.getItem('theme')) {
+          themes.set(themes.find("Cool"))
+        } else {
+          const possibleTheme = themes.find(localStorage.getItem('theme'))
+          if (possibleTheme) {
+            themes.set(possibleTheme)
+          } else {
+            themes.set(themes.find("Cool"))
+          }
+        }
       }
   }, [])
 
-  
-  
-
   const ThemeWrappedComponent = (props) => {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={currentTheme}>
         <GlobalStyle />
-        <ThemeDropDown>
-          <ThemeDropdownButton><FontAwesomeIcon icon={faSwatchbook} /></ThemeDropdownButton>
-          <ThemeDropdownContent>
-            {availibleThemes.map(i => {
-              return (
-                <ThemeDropdownOptions onClick={() => updateTheme(i)}>
-                  {i} {theme?.['name'] == i && <FontAwesomeIcon icon={faCheck} />}
-                </ThemeDropdownOptions>
-              )
-            })}
-          </ThemeDropdownContent>
-        </ThemeDropDown>
-        <Nav>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-          <NavSeperator />
-          <Link href="/posts">
-            <a>Posts</a>
-          </Link>
-        </Nav>
-        <Component {...props} />
+          <Component themeInteractor={themes} {...props} />
       </ThemeProvider>
     )
   }
 
   return (
       <TinaEditProvider
-        showEditButton={true}
+        showEditButton={false}
         editMode={
           <TinaCMS
+          
             branch="master"
             clientId={NEXT_PUBLIC_TINA_CLIENT_ID}
             isLocalClient={Boolean(Number(NEXT_PUBLIC_USE_LOCAL_CLIENT))}
             mediaStore={TinaCloudCloudinaryMediaStore}
             cmsCallback={cms => {
+              import("tinacms").then(({ RouteMappingPlugin }) => {
+                const RouteMapping = new RouteMappingPlugin(
+                  (collection, document) => {
+                    if (["theme"].includes(collection.name)) {
+                      return undefined;
+                    }
+                    if (["page"].includes(collection.name)) {
+                      if (document.sys.filename === "home") {
+                        return `/`;
+                      }
+                      return undefined;
+                    }
+                    return `/${collection.name}/${document.sys.filename}`;
+                  }
+                );
+                cms.plugins.add(RouteMapping);
+              })
               cms.flags.set("tina-admin", true)
               cms.flags.set("branch-switcher", true)
+              return cms
             }}
-            {...pageProps}
-          >
-            {(livePageProps) => <ThemeWrappedComponent {...livePageProps} />}
+            >
+            <ThemeWrappedComponent {...pageProps} />
           </TinaCMS>
         }
-      >
+        >
         <ThemeWrappedComponent {...pageProps} />
       </TinaEditProvider>
   )
 }
-
-
-const NavSeperatorStyle = styled.div`
-  font-size: 1em;
-  
-  height: fit-content;
-
-  line-height: 0;
-
-
-
-  margin: 0 .5em 0 .5em;
-
-
-`
-
-const NavSeperator = () => {
-  return (
-    <NavSeperatorStyle>
-      {'~'}
-    </NavSeperatorStyle>
-  )
-}
-
-export const themeFragment = (name) => `
-  ${name}: getThemeDocument(relativePath: "${name}.md") {
-    data {
-      background
-      primary
-      secondary
-      fontSize
-    }
-  }
-`
-
-
-export const customGetStaticPropsForTina = (context: {
-  firstLine: string | null,
-  query: string,
-  variables: object
-}) => {
-  return getStaticPropsForTina({
-    query: `
-      ${context.firstLine || ''} {
-        ${context.query}
-        ${availibleThemes.map(i => themeFragment(i))}
-      }
-    `,
-    variables: context.variables
-  })
-}
-
-
 
 export default App
