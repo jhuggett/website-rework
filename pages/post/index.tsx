@@ -1,7 +1,11 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { ExperimentalGetTinaClient } from '../../.tina/__generated__/types'
 
+// github: '<i class="fab fa-github"></i>',
+// npm: '<i class="fab fa-npm"></i>',
+// other: '<i class="fas fa-link"></i>'
 
 export default function Posts({ posts, themeInteractor }) {
   const postsList = posts.data.getPostList.edges
@@ -9,7 +13,8 @@ export default function Posts({ posts, themeInteractor }) {
 
   return (
     <Page>
-      <Heading>Posts</Heading>
+      
+      <Heading>J. T. Huggett</Heading>
       <PostList>
         {postsList.map((post) => (
           <Link key={post.node.id} href={`/post/${post.node.sys.filename}`} passHref>
@@ -36,19 +41,49 @@ export default function Posts({ posts, themeInteractor }) {
         See also
       </h4>
       <ThemeCardContainer>
-        <a target={'_blank'} referrerPolicy={'no-referrer'} href='https://collection.huggett.ca'>
+        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://collection.huggett.ca'>
           <p>Treasures from my adventures</p>
-        </a>
+        </ExternalLink>
       </ThemeCardContainer>
+      <ExternalCollection>
+        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://www.instagram.com/harvesthailforge'>
+          <i className="fab fa-instagram-square"></i>
+        </ExternalLink>
+        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://www.linkedin.com/in/joelhuggett'>
+          <i className="fab fa-linkedin"></i>
+        </ExternalLink>
+
+        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://github.com/jhuggett'>
+          <i className="fab fa-github-square"></i>
+        </ExternalLink>
+      </ExternalCollection>
     </Page>
   )
 }
 
 
+
+const ExternalCollection = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const ExternalLink = styled.a`
+  transition-duration: .5s;
+  margin: .5em;
+  color: ${props => props.theme.secondary};
+  text-align: center;
+  :hover{
+    color: ${props => props.theme.primary};
+    cursor: pointer;
+  }
+`
+
 const ThemeCard = styled.div`
   font-size: .5em;
-  padding: 1rem 1rem 1rem 1rem;
-  margin: 1rem 1rem 1rem 1rem;
+  padding: 1rem;
+  margin: .1rem;
   cursor: pointer;
 
   color: ${props => props.selected ? props.theme.primary : props.theme.secondary};
@@ -65,6 +100,7 @@ const ThemeCardContainer = styled.div`
   display: flex;
   align-content: center;
   justify-content: center;
+  flex-wrap: wrap;
 `
 
 const Heading = styled.h1`
@@ -73,7 +109,7 @@ const Heading = styled.h1`
 `
 
 const Page = styled.div`
-  margin: 1em;
+  padding: 1em;
 `
 
 const Topic = styled.div`

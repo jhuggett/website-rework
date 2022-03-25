@@ -17,18 +17,18 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.background};
     color: ${props => props.theme.primary};
-    font-size: clamp(1rem, 10vw, 5rem);
-    word-wrap: break-word;
+    font-size: clamp(.5rem, 10vw, 5rem);
     font-family: Montserrat;
+    word-wrap: normal;
   }
 
 
   h1 {
     font-family: Cinzel;
-    width: 100%;
     text-align: center;
     margin-top: .5em;
     margin-bottom: .5em;
+    font-size: clamp(1.5em, 10vw, 4em);
   }
 
   h2, h3, h4, h5, h6 {
@@ -121,6 +121,7 @@ const App = ({ Component, pageProps }) => {
       <ThemeProvider theme={currentTheme}>
         <Head>
          <link href="/fonts/style.css" rel="stylesheet" />
+         <script src="https://kit.fontawesome.com/86b50e3edb.js" crossOrigin="anonymous"></script>
         </Head>
         <GlobalStyle />
           <Component themeInteractor={themes} {...props} />
