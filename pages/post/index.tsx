@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { ExperimentalGetTinaClient } from '../../.tina/__generated__/types'

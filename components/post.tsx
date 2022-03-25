@@ -2,8 +2,6 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text'
 import styled from 'styled-components'
 import { GallerySchema, Gallery } from './gallery'
 import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTurnDownLeft } from '@fortawesome/pro-thin-svg-icons'
 
 export const BlogPostSchema = {
   label: 'Blog Posts',
