@@ -16,7 +16,7 @@ export default function Posts({ posts, themeInteractor }) {
             <PostCard >
               {post.node.data.title}
               <Topics>
-                ({post.node.data.topic.map(i => (<Topic>{i}</Topic>))})
+                {post.node.data.topic.map(i => (<Topic>{i}</Topic>))}
               </Topics>
             </PostCard>
           </Link>
@@ -33,11 +33,10 @@ export default function Posts({ posts, themeInteractor }) {
         ))}
       </ThemeCardContainer>
       <h4>
-        Directions
+        See also
       </h4>
       <ThemeCardContainer>
-        <a href='https://collection.huggett.ca'>
-          <h6>Collection</h6>
+        <a target={'_blank'} referrerPolicy={'no-referrer'} href='https://collection.huggett.ca'>
           <p>Treasures from my adventures</p>
         </a>
       </ThemeCardContainer>
@@ -87,7 +86,8 @@ const Topics = styled.div`
   justify-content: center;
   font-size: .5em;
 
-  color: ${props => props.theme.primary};
+  margin-top: .5em;
+
 `
 
 const PostCard = styled.a`

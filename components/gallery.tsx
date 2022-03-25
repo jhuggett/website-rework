@@ -26,6 +26,18 @@ export const GallerySchema = {
           name: 'height',
           label: 'Height'
         },
+        {
+          type: 'string',
+          label: 'Border Style',
+          name: 'borderStyle',
+          options: ['none', 'double']
+        },
+        {
+          type: 'string',
+          label: 'Border Radius',
+          name: 'borderRadius',
+          options: ['0', '12%']
+        }
       ]
     },
     {
@@ -43,17 +55,19 @@ export const GallerySchema = {
 }
 
 export const Gallery = props => {
-  const { alignment, images, gap } = props
+  const { alignment, images, gap} = props
 
   return (
     <StyledGallery alignment={alignment || 'center'} gap={gap} >
       {images && images.map( i => {
-        const { width, height, src } = i
-        return <StyledImage><Image 
+        const { width, height, src, borderStyle, borderRadius } = i
+        return <StyledImage
+          borderStyle={borderStyle}
+          borderRadius={borderRadius}
+        ><Image 
           src={src || 'http://res.cloudinary.com/dza6vysyp/image/upload/w\_1000,h\_1000,c\_fill,q\_auto/v1613580742/sample.jpg'}
           width={width || 100}
           height={height || 100}
-          
         /></StyledImage>
       })}
     </StyledGallery>
@@ -64,20 +78,16 @@ const StyledImage = styled.div`
 
   display: flex;
   
-  border-radius: 12%;
+  border-radius: ${props => props.borderRadius || '12%'};
   overflow: hidden;
   border-width: 16px;
-  border-style: double;
+  border-style: ${props => props.borderStyle || 'double'};
   border-color: ${props => props.theme.primary};
   
 `
 
 const StyledGallery = styled.div`
   width: 100%;
-
-
-  
-
   display: flex;
   flex-wrap: wrap;
   align-items: ${props => props.alignment};

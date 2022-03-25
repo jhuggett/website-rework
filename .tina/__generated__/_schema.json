@@ -178,6 +178,38 @@
                         "images",
                         "height"
                       ]
+                    },
+                    {
+                      "type": "string",
+                      "label": "Border Style",
+                      "name": "borderStyle",
+                      "options": [
+                        "none",
+                        "double"
+                      ],
+                      "namespace": [
+                        "post",
+                        "body",
+                        "Gallery",
+                        "images",
+                        "borderStyle"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "label": "Border Radius",
+                      "name": "borderRadius",
+                      "options": [
+                        "0",
+                        "12%"
+                      ],
+                      "namespace": [
+                        "post",
+                        "body",
+                        "Gallery",
+                        "images",
+                        "borderRadius"
+                      ]
                     }
                   ],
                   "namespace": [

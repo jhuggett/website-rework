@@ -1,7 +1,7 @@
 ---
 name: Dark
-background: '#282828'
-primary: '#33FF00'
-secondary: '#FFB000'
+background: '#171219'
+primary: '#FFFFFA'
+secondary: '#934B00'
 ---
 

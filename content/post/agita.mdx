@@ -1,0 +1,30 @@
+---
+title: Agita
+topic:
+  - programming
+---
+
+## TUI that hastens the basics of Git
+
+I use git a lot. Usually after writing a bunch of code. And then I find that as I'm trying to type these same basic commands, that I've typed a thousand times before, they don't come out right. Usually goes something along the lines of "git statsu", then "git comit", and "gut puhs", and that's on a good day. So I was fed up with this, and thus decided to create Agita:
+
+<Gallery images={[{src: "https://res.cloudinary.com/dza6vysyp/image/upload/v1648213797/website/posts/agita/1.webp", width: "1000", height: "750", borderStyle: "double", borderRadius: "0"}]}/>
+
+All Agita is is a basic text-based user interface, written in node and distributed on the npm registry, that exists in your terminal and allows for selecting the commands you want. Sure, the problem can be managed by using shortcuts and aliases but I'm choosing the path of selective ignorance.
+
+<Gallery images={[{src: "https://res.cloudinary.com/dza6vysyp/image/upload/v1648213798/website/posts/agita/2.webp", width: "1000", height: "750", borderStyle: "double", borderRadius: "0"}]}/>
+
+Plus I can then do some cool stuff like below. This is a user interaction that allows for selectively choosing (or removing) files from the git repository. You can navigate through directories and or select full directories with nothing but your arrow and enter keys.
+
+<Gallery images={[{src: "https://res.cloudinary.com/dza6vysyp/image/upload/v1648213800/website/posts/agita/3.webp", width: "1000", height: "750", borderStyle: "double", borderRadius: "0"}]}/>
+
+I also found a tendency to create branch names that don't necessarily represent the purpose of the branch just so that the name is simple and short. I then keep forgetting or typing the name wrong. So Agita makes it simple for whenever you need the name of a remote or branch; Agita searches your .git folder and grabs all remotes and refs automatically.
+
+<Gallery images={[{src: "https://res.cloudinary.com/dza6vysyp/image/upload/v1648213802/website/posts/agita/4.webp", width: "1000", height: "750", borderRadius: "0"}]}/>
+
+And while not being completely fleshed out, if you do run Agita in a directory that isn't a git repository, it'll help you set one up.
+
+<Gallery
+  images={[{src: "https://res.cloudinary.com/dza6vysyp/image/upload/v1648213804/website/posts/agita/5.webp", width: "1000", height: "750", borderRadius: "0"}]}
+  gap="20px"
+/>

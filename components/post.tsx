@@ -42,23 +42,27 @@ const components = {
 export const Post = ({content}) => {
   return (
     <Page>
-      <ReturnButtonSection>
-        <Link href="/post">
-          <ReturnButtonAnchor><FontAwesomeIcon icon={faTurnDownLeft} /></ReturnButtonAnchor>
-        </Link>
-      </ReturnButtonSection>
-      <h1 data-tinafield={'title'}>
+      <ReturnButton />
+      <Title data-tinafield={'title'}>
         {content.title}
-      </h1>
-      <div data-tinafield={'body'} ><TinaMarkdown components={components} content={content.body} /></div>
-      <ReturnButtonSection>
-        <Link href="/post">
-          <ReturnButtonAnchor><FontAwesomeIcon icon={faTurnDownLeft} /></ReturnButtonAnchor>
-        </Link>
-      </ReturnButtonSection>
+      </Title>
+      <div data-tinafield={'body'} >
+        <TinaMarkdown components={components} content={content.body} />
+      </div>
+      <ReturnButton />
     </Page>
   )
 }
+
+const ReturnButton = () => (
+  <ReturnButtonSection>
+    <Link href="/post">
+      <ReturnButtonAnchor>
+        Return
+      </ReturnButtonAnchor>
+    </Link>
+  </ReturnButtonSection>
+)
 
 const ReturnButtonAnchor = styled.a`
   cursor: pointer;
@@ -69,14 +73,21 @@ const ReturnButtonAnchor = styled.a`
   :hover {
     background: ${props => props.theme.secondary};
     color: ${props => props.theme.background};
-  }
+    text-decoration: none;
+  };
 `
 
 const ReturnButtonSection = styled.div`
+  margin-top: 2em;
   width: 100%;
   text-align: center;
+
 `
 
 const Page = styled.div`
   margin: 5vw;
+`
+
+const Title = styled.h1`
+  text-decoration: underline;
 `

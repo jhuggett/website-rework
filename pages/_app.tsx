@@ -4,6 +4,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { TinaCloudCloudinaryMediaStore } from 'next-tinacms-cloudinary'
 import { useEffect, useState } from 'react'
 import { Theme } from '../.tina/__generated__/types'
+import Head from 'next/head'
 
 // @ts-ignore FIXME: default export needs to be 'ComponentType<{}>
 const TinaCMS = dynamic(() => import('tinacms'), { ssr: false })
@@ -16,21 +17,26 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.background};
     color: ${props => props.theme.primary};
-    
     font-size: clamp(1rem, 10vw, 5rem);
-
     word-wrap: break-word;
-
-    
+    font-family: Montserrat;
   }
 
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  h1 {
+    font-family: Cinzel;
     width: 100%;
     text-align: center;
-    line-height: 1;
-    margin-bottom: 1rem;
+    margin-top: .5em;
+    margin-bottom: .5em;
+  }
+
+  h2, h3, h4, h5, h6 {
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+    text-align: center;
+    margin-top: .25em;
+    margin-bottom: .25em;
   }
 
   a {
@@ -77,10 +83,8 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-
 const App = ({ Component, pageProps }) => {
   const themeDocuments: Theme[] = pageProps.themes?.data.getThemeList.edges.map(i => i.node.data) || []
-
   const [currentTheme, setCurrentTheme] = useState<Theme>({})
 
   const themes = {
@@ -100,13 +104,13 @@ const App = ({ Component, pageProps }) => {
   useEffect(() => {
       if (themeDocuments.length > 0) {
         if (!localStorage.getItem('theme')) {
-          themes.set(themes.find("Cool"))
+          themes.set(themes.find("Default"))
         } else {
           const possibleTheme = themes.find(localStorage.getItem('theme'))
           if (possibleTheme) {
             themes.set(possibleTheme)
           } else {
-            themes.set(themes.find("Cool"))
+            themes.set(themes.find("Default"))
           }
         }
       }
@@ -115,6 +119,9 @@ const App = ({ Component, pageProps }) => {
   const ThemeWrappedComponent = (props) => {
     return (
       <ThemeProvider theme={currentTheme}>
+        <Head>
+         <link href="/fonts/style.css" rel="stylesheet" />
+        </Head>
         <GlobalStyle />
           <Component themeInteractor={themes} {...props} />
       </ThemeProvider>
@@ -126,7 +133,6 @@ const App = ({ Component, pageProps }) => {
         showEditButton={false}
         editMode={
           <TinaCMS
-          
             branch="master"
             clientId={NEXT_PUBLIC_TINA_CLIENT_ID}
             isLocalClient={Boolean(Number(NEXT_PUBLIC_USE_LOCAL_CLIENT))}
