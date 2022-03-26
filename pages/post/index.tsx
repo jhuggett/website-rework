@@ -45,7 +45,7 @@ export default function Posts({ posts, themeInteractor }) {
         </ExternalLink>
       </ThemeCardContainer>
       <ExternalCollection>
-        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://www.instagram.com/harvesthailforge'>
+        <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://www.instagram.com/harvest.hail.forge'>
           <i className="fab fa-instagram-square"></i>
         </ExternalLink>
         <ExternalLink target={'_blank'} referrerPolicy={'no-referrer'} href='https://www.linkedin.com/in/joelhuggett'>
